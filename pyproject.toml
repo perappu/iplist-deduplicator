@@ -1,0 +1,21 @@
+[project]
+name = "iplist-deduplicator"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Kazimir", email = "stokoriel@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "ipaddress>=1.0.23",
+    "numpy>=2.5.5",
+    "requests>=2.34.2",
+]
+
+[project.scripts]
+iplist-deduplicator = "iplist_deduplicator:main"
+
+[build-system]
+requires = ["uv_build>=0.13.9,<0.14.0"]
+build-backend = "uv_build"
