@@ -8,6 +8,9 @@ import re
 import tempfile
 import subprocess
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # yoinked from the bitwire guy
 # https://github.com/bitwire-it/ipblocklist
@@ -100,9 +103,9 @@ def main() -> None:
     # so we can save files to our real path later
     real_dir = Path.cwd()
 
-    with tempfile.TemporaryDirectory() as temp_dir:
-        filepaths = []
+    filepaths = []
 
+    with tempfile.TemporaryDirectory() as temp_dir:
         # get files from git repos
         # name paired with url and then the files we care about
         repos = {
@@ -154,4 +157,19 @@ def main() -> None:
 
         # process them
         process_files(real_dir, filepaths)
-        print('Done processing!')
+    
+    # generate foomuuri conf file
+    source_url = os.getenv('SOURCE_URL')
+
+    # janky but whateverrr
+    print('writing Foomuuri conf')
+    with(open('foomuuri.conf', 'w')) as conf:
+        conf.write("iplist {\n")
+        for file in filepaths:
+            conf.write("@" + Path(file).stem + " " + source_url + Path(file).name + " url_refresh=1d \n")
+        conf.write("} \n \n")
+
+        for file in filepaths:
+            conf.write("saddr @" + Path(file).stem + " drop counter \"" + Path(file).stem + "\" \n")
+
+    print('Done processing!')

@@ -12,3 +12,5 @@ wheels/
 processed/*.txt
 processed/*.ipset
 processed/*.netset
+foomuuri.conf
+.env
