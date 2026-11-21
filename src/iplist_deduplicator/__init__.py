@@ -148,6 +148,7 @@ def main() -> None:
         
         # fancy chunk downloading for big files
         for filename, url in single_files.items():
+            print('Downloading ' + filename)
             with requests.get(url, stream=True) as r:
                 r.raise_for_status()
                 with open(temp_dir + '/' + filename, 'wb') as f:
